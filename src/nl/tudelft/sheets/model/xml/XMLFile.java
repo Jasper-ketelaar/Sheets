@@ -48,7 +48,7 @@ public class XMLFile {
                 content.add(current);
             }
 
-            final XMLElement element = XMLElement.parse(first, content);
+            final XMLElement element = XMLElement.parse(first, null, content);
             elements.add(element);
         }
         return new XMLFile(elements, name.substring(name.indexOf("<") + 1, name.indexOf(">")));

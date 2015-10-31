@@ -10,24 +10,23 @@ import java.util.Deque;
  */
 public class XMLElement {
 
+    private final ArrayList<XMLElement> children = new ArrayList<>();
+
     private final String attribute;
     private final String value;
-    private final ArrayList<XMLElement> children;
 
-    private XMLElement(final String attribute, final String value, final ArrayList<XMLElement> children) {
-        this.attribute = attribute;
-        this.value = value;
-        this.children = children;
-    }
+    private XMLElement parent;
 
     private XMLElement(final String attribute, final String value) {
-        this(attribute, value, new ArrayList<>());
+        this.attribute = attribute;
+        this.value = value;
     }
 
-    public static XMLElement parse(final String first, final Deque<String> content) throws IOException {
+    public static XMLElement parse(final String first, final XMLElement parent, final Deque<String> content) throws IOException {
         final String attribute = first.substring(first.indexOf("<") + 1, first.indexOf(">"));
         final StringBuilder value = new StringBuilder();
-        final ArrayList<XMLElement> children = new ArrayList<>();
+        final XMLElement parsed = new XMLElement(attribute, value.toString());
+        parsed.setParent(parent);
 
         while (!content.isEmpty()) {
             final String current = content.pop();
@@ -40,18 +39,26 @@ public class XMLElement {
                     }
                     inner.add(inCurrent);
                 }
-                children.add(parse(current, inner));
+                parsed.addChild(parse(current, parsed, inner));
             } else {
 
                 if (current.replaceFirst("<", "").contains("<") && current.contains("</")) {
                     final String val = current.substring(current.indexOf(">") + 1, current.indexOf("</"));
                     final String att = current.substring(current.indexOf("<") + 1, current.indexOf(">"));
-                    children.add(new XMLElement(att, val));
+                    parsed.addChild(new XMLElement(att, val));
                 } else
                     value.append(current);
             }
         }
-        return new XMLElement(attribute, value.toString(), children);
+        return parsed;
+    }
+
+    public void addChild(final XMLElement child) {
+        children.add(child);
+    }
+
+    public void setParent(final XMLElement parent) {
+        this.parent = parent;
     }
 
     public String getAttribute() {
@@ -72,6 +79,10 @@ public class XMLElement {
 
     public boolean hasChildren() {
         return getChildrenCount() > 0;
+    }
+
+    public XMLElement getChild(final int index) {
+        return getChildren().get(index);
     }
 
     public ArrayList<XMLElement> getChildrenByAttribute(final String attribute) {
@@ -100,6 +111,10 @@ public class XMLElement {
         }
 
         return elements;
+    }
+
+    public XMLElement getParent() {
+        return parent;
     }
 
     @Override

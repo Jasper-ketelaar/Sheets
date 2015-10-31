@@ -40,8 +40,10 @@ $RECYCLE.BIN/
 .AppleDesktop
 Network Trash Folder
 Temporary Items
+/out
 .apdisk
 
 # Intellij stuff
 .idea
 *.iml
+/.idea
