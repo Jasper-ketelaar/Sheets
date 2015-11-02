@@ -1,4 +1,4 @@
-package nl.tudelft.sheets.view.components.table.cell;
+package nl.tudelft.sheets.model.data;
 
 /**
  * Created by jasperketelaar on 10/31/15.

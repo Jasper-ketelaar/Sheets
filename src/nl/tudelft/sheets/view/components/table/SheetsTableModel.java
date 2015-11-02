@@ -1,18 +1,19 @@
 package nl.tudelft.sheets.view.components.table;
 
 
-import nl.tudelft.sheets.view.components.table.cell.SheetsCell;
+import nl.tudelft.sheets.model.data.SheetsCell;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by jasperketelaar on 10/31/15.
  */
 public class SheetsTableModel extends AbstractTableModel {
 
-    private final ArrayList<String> columnNames;
-    private final ArrayList<SheetsCell[]> data = new ArrayList<>();
+    private ArrayList<String> columnNames;
+    private ArrayList<SheetsCell[]> data = new ArrayList<>();
 
     public SheetsTableModel(final int columns, final int rows) {
         this.columnNames = new ArrayList<>();
@@ -27,7 +28,7 @@ public class SheetsTableModel extends AbstractTableModel {
 
     public SheetsTableModel(final String[] columnNames, final int rows) {
         this.columnNames = new ArrayList<>();
-        for(final String str : columnNames) {
+        for (final String str : columnNames) {
             this.columnNames.add(str);
         }
         initRows(rows);
@@ -116,6 +117,24 @@ public class SheetsTableModel extends AbstractTableModel {
             System.out.println(getValueAt(0, c));
         }
         return getValueAt(0, c).getClass();
+    }
+
+
+    public void load(final String[] columnNames, final ArrayList<SheetsCell[]> data) {
+        this.columnNames.clear();
+        this.data.clear();
+        System.out.println(data.size());
+        for(final SheetsCell[] cells : data) {
+            for(final SheetsCell cell : cells) {
+                System.out.println("cell = " + cell);
+            }
+        }
+        
+        for(final String str : columnNames) {
+            this.columnNames.add(str);
+        }
+        this.data = data;
+        fireTableDataChanged();
     }
 
     @Override

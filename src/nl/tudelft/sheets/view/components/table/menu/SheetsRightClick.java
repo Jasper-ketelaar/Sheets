@@ -2,12 +2,8 @@ package nl.tudelft.sheets.view.components.table.menu;
 
 import nl.tudelft.sheets.view.components.table.SheetsTable;
 import nl.tudelft.sheets.view.components.table.SheetsTableModel;
-import nl.tudelft.sheets.view.components.table.cell.CellRenderer;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -35,8 +31,9 @@ public class SheetsRightClick extends MouseAdapter {
                 final int row = table.getSelectedRow();
                 final int col = table.getSelectedColumn();
                 table.clearSelection();
-                table.getCellEditor(row, col).stopCellEditing();
-             }
+                if ((row & col) != -1)
+                    table.getCellEditor(row, col).stopCellEditing();
+            }
         }
     }
 
@@ -50,8 +47,8 @@ public class SheetsRightClick extends MouseAdapter {
         public JMenuItem addRow() {
             final JMenuItem item = new JMenuItem("Add row");
             item.addActionListener(e -> {
-                    model.newRow();
-                    table.clearSelection();
+                model.newRow();
+                table.clearSelection();
             });
             return item;
         }

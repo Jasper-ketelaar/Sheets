@@ -1,5 +1,7 @@
 package nl.tudelft.sheets.view.components;
 
+import nl.tudelft.sheets.view.components.menu.*;
+import nl.tudelft.sheets.view.components.menu.MenuBar;
 import nl.tudelft.sheets.view.components.table.SheetsTable;
 import nl.tudelft.sheets.view.components.table.SheetsTableModel;
 
@@ -20,5 +22,6 @@ public class ContentPanel extends JPanel {
         this.add(table.getScrollPane(), BorderLayout.CENTER);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         setPreferredSize(table.getScrollPane().getPreferredSize());
+
     }
 }
