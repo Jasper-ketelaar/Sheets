@@ -1,5 +1,6 @@
 package nl.tudelft.sheets.view.components.table;
 
+import nl.tudelft.sheets.view.components.table.cell.CellRenderer;
 import nl.tudelft.sheets.view.components.table.menu.SheetsRightClick;
 
 import javax.swing.*;
@@ -24,6 +25,8 @@ public class SheetsTable extends JTable {
 
         this.scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
         this.scrollPane.getViewport().addMouseListener(listener);
+        this.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
+        this.setDefaultRenderer(Object.class, new CellRenderer());
 
 
     }

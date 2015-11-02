@@ -22,6 +22,7 @@ public class ResizeListener extends ComponentAdapter {
 
     @Override
     public void componentResized(final ComponentEvent evt) {
+        System.out.println("evt = [" + evt.getComponent().getSize() + "]");
         final Dimension size = evt.getComponent().getSize();
         scroll.setPreferredSize(size);
     }

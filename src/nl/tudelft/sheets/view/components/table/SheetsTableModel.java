@@ -1,10 +1,10 @@
 package nl.tudelft.sheets.view.components.table;
 
 
+import nl.tudelft.sheets.view.components.table.cell.SheetsCell;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * Created by jasperketelaar on 10/31/15.
@@ -23,7 +23,6 @@ public class SheetsTableModel extends AbstractTableModel {
         for (int i = 0; i < rows; i++) {
             newRow();
         }
-
     }
 
     public SheetsTableModel(final String[] columnNames, final int rows) {
