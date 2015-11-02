@@ -1,24 +1,56 @@
 package nl.tudelft.sheets.view.components.table;
 
 
-import javax.lang.model.type.PrimitiveType;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Created by jasperketelaar on 10/31/15.
  */
 public class SheetsTableModel extends AbstractTableModel {
 
-    private final String[] columnNames = new String[5];
-    private final ArrayList<Object[]> data = new ArrayList<>();
+    private final ArrayList<String> columnNames;
+    private final ArrayList<SheetsCell[]> data = new ArrayList<>();
+
+    public SheetsTableModel(final int columns, final int rows) {
+        this.columnNames = new ArrayList<>();
+        for (int i = 0; i < columns; i++) {
+            columnNames.add(Character.toString((char) (i + 65)));
+        }
+
+        for (int i = 0; i < rows; i++) {
+            newRow();
+        }
+
+    }
+
+    public SheetsTableModel(final String[] columnNames, final int rows) {
+        this.columnNames = new ArrayList<>();
+        for(final String str : columnNames) {
+            this.columnNames.add(str);
+        }
+        initRows(rows);
+    }
+
+    public SheetsTableModel(final String[] columnNames) {
+        this(columnNames, 5);
+    }
 
     public SheetsTableModel() {
-        for(int i = 0; i < 5; i++) {
-            columnNames[i] = Character.toString((char) (i + 65));
+        this(5, 5);
+    }
+
+
+    private void initRows(final int rows) {
+        for (int i = 0; i < rows; i++) {
+            newRow();
         }
+    }
+
+    public void addColumn() {
+
     }
 
     /**
@@ -32,7 +64,7 @@ public class SheetsTableModel extends AbstractTableModel {
     }
 
     public void setName(final int column, final String name) {
-        columnNames[column] = name;
+        columnNames.set(column, name);
     }
 
     @Override
@@ -40,44 +72,62 @@ public class SheetsTableModel extends AbstractTableModel {
         return data.size();
     }
 
+    @Override
+    public String getColumnName(final int column) {
+        return columnNames.get(column);
+    }
+
+    public void newRow() {
+        addRow(new Object[0]);
+    }
 
     public void addRow(final Object[] data) {
-        final Object[] upDate = new Object[26];
-        for(int i = 0; i < upDate.length; i++) {
-            if(i > data.length - 1) {
-                upDate[i] = "";
-            } else {
-                upDate[i] = data[i];
-            }
+        final int row = this.data.size();
+        final SheetsCell[] cells = generate(row);
+        for (int i = 0; i < data.length; i++) {
+            cells[i].setContent(data[i]);
         }
-        this.data.add(upDate);
-        this.fireTableRowsInserted(this.data.size() - 1, this.data.size() - 1);
+        this.data.add(cells);
+        this.fireTableRowsInserted(row - 1, row - 1);
+    }
+
+    private SheetsCell[] generate(final int row) {
+        final SheetsCell[] cells = new SheetsCell[columnNames.size()];
+        for (int i = 0; i < cells.length; i++) {
+            cells[i] = new SheetsCell(row, i);
+        }
+        return cells;
     }
 
     public void removeRow(final int row) {
         this.data.remove(data.get(row));
+        fireTableRowsDeleted(row, row);
     }
 
     @Override
     public int getColumnCount() {
-        return columnNames.length;
+        return columnNames.size();
     }
 
     @Override
     public Class getColumnClass(int c) {
+        try {
+            return getValueAt(0, c).getClass();
+        } catch (Exception e) {
+            System.out.println(getValueAt(0, c));
+        }
         return getValueAt(0, c).getClass();
     }
 
     @Override
     public void setValueAt(final Object value, final int row, final int column) {
-        final Object[] data = this.data.get(row);
-        data[column] = value;
-        this.data.set(row, data);
+        final SheetsCell[] data = this.data.get(row);
+        data[column].setContent(value);
         fireTableCellUpdated(row, column);
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return data.get(rowIndex)[columnIndex];
+        return data.get(rowIndex)[columnIndex].getContent();
     }
 }

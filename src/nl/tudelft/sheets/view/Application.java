@@ -1,6 +1,7 @@
 package nl.tudelft.sheets.view;
 
 import nl.tudelft.sheets.view.components.ContentPanel;
+import nl.tudelft.sheets.view.components.listener.ResizeListener;
 
 import javax.swing.*;
 
@@ -14,6 +15,7 @@ public class Application extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(new ContentPanel());
         this.pack();
+        this.addComponentListener(new ResizeListener(this));
 
     }
 }

@@ -1,9 +1,12 @@
 package nl.tudelft.sheets.view.components;
 
+import nl.tudelft.sheets.view.components.table.SheetsTable;
 import nl.tudelft.sheets.view.components.table.SheetsTableModel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
 /**
@@ -12,14 +15,10 @@ import java.awt.*;
 public class ContentPanel extends JPanel {
 
     public ContentPanel() {
-        final SheetsTableModel model = new SheetsTableModel();
-        final JTable table = new JTable(model);
+        final SheetsTable table = new SheetsTable();
 
-        final JScrollPane scroller = new JScrollPane(table);
-        this.add(scroller, BorderLayout.CENTER);
+        this.add(table.getScrollPane(), BorderLayout.CENTER);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        System.out.println(scroller.getPreferredSize());
-        setPreferredSize(scroller.getPreferredSize());
-
+        setPreferredSize(table.getScrollPane().getPreferredSize());
     }
 }
