@@ -21,21 +21,7 @@ public class SheetsTableModel extends AbstractTableModel {
             columnNames.add(Character.toString((char) (i + 65)));
         }
 
-        for (int i = 0; i < rows; i++) {
-            newRow();
-        }
-    }
-
-    public SheetsTableModel(final String[] columnNames, final int rows) {
-        this.columnNames = new ArrayList<>();
-        for (final String str : columnNames) {
-            this.columnNames.add(str);
-        }
         initRows(rows);
-    }
-
-    public SheetsTableModel(final String[] columnNames) {
-        this(columnNames, 5);
     }
 
     public SheetsTableModel() {
@@ -49,9 +35,6 @@ public class SheetsTableModel extends AbstractTableModel {
         }
     }
 
-    public void addColumn() {
-
-    }
 
     /**
      * Overridden to make every cell editable
@@ -123,18 +106,13 @@ public class SheetsTableModel extends AbstractTableModel {
     public void load(final String[] columnNames, final ArrayList<SheetsCell[]> data) {
         this.columnNames.clear();
         this.data.clear();
-        System.out.println(data.size());
-        for(final SheetsCell[] cells : data) {
-            for(final SheetsCell cell : cells) {
-                System.out.println("cell = " + cell);
-            }
-        }
-        
         for(final String str : columnNames) {
             this.columnNames.add(str);
         }
         this.data = data;
-        fireTableDataChanged();
+        fireTableStructureChanged();
+
+
     }
 
     @Override

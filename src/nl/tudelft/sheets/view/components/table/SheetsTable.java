@@ -11,6 +11,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Created by jasperketelaar on 10/31/15.
@@ -33,7 +34,6 @@ public class SheetsTable extends JTable {
     }
 
 
-
     public JScrollPane getScrollPane() {
         return scrollPane;
     }
@@ -51,11 +51,13 @@ public class SheetsTable extends JTable {
         try {
             final String[] columnNames = SheetParser.getColumnNames(file);
             final ArrayList<SheetsCell[]> cells = SheetParser.parseCellsFromFile(file);
-            ((SheetsTableModel)this.getModel()).load(columnNames, cells);
+            ((SheetsTableModel) this.getModel()).load(columnNames, cells);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidXMLFormatException e) {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -1,6 +1,7 @@
 package nl.tudelft.sheets.view.components.menu;
 
 import nl.tudelft.sheets.view.Application;
+import nl.tudelft.sheets.view.components.ContentPanel;
 import nl.tudelft.sheets.view.components.table.SheetsTable;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class MenuBar extends JMenuBar {
 
         public FileMenu() {
             super("File");
+            add(newSheet());
             add(load());
         }
 
@@ -36,11 +38,28 @@ public class MenuBar extends JMenuBar {
                 final int val = chooser.showOpenDialog(app);
                 if(val == JFileChooser.APPROVE_OPTION) {
                     final File file = chooser.getSelectedFile();
-                    app.getTable().load(file.getName());
+
+                    final ContentPanel panel = new ContentPanel();
+                    panel.getTable().load(file.getName());
+
+                    app.getJTabbedPane().addTab(file.getName().replace(".xml", ""), panel);
+
                 }
 
             });
 
+            return item;
+        }
+
+        public JMenuItem newSheet() {
+            final JMenuItem item = new JMenuItem("New");
+            item.addActionListener(e -> {
+                final ContentPanel panel = new ContentPanel();
+                app.getJTabbedPane().addTab("New tab", panel);
+                app.getJTabbedPane().setPreferredSize(panel.getTable().getScrollPane().getPreferredSize());
+
+                app.pack();
+            });
             return item;
         }
     }

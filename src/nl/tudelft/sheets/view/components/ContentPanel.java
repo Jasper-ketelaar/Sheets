@@ -16,12 +16,18 @@ import java.awt.*;
  */
 public class ContentPanel extends JPanel {
 
+    private final SheetsTable table;
+
     public ContentPanel() {
-        final SheetsTable table = new SheetsTable();
+        this.table = new SheetsTable();
 
         this.add(table.getScrollPane(), BorderLayout.CENTER);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         setPreferredSize(table.getScrollPane().getPreferredSize());
 
+    }
+
+    public SheetsTable getTable() {
+        return table;
     }
 }

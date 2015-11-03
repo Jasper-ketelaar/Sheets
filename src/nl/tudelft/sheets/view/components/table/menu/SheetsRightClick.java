@@ -49,6 +49,11 @@ public class SheetsRightClick extends MouseAdapter {
             item.addActionListener(e -> {
                 model.newRow();
                 table.clearSelection();
+                if(table.getSize().height + 100 > table.getScrollPane().getSize().height) {
+                    final JPanel contentPane = (JPanel) table.getParent().getParent().getParent();
+                    contentPane.setPreferredSize(table.getScrollPane().getSize());
+                    ((JFrame)contentPane.getParent().getParent().getParent()).pack();
+                }
             });
             return item;
         }
