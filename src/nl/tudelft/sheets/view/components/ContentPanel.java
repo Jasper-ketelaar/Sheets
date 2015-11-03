@@ -23,8 +23,10 @@ public class ContentPanel extends JPanel {
 
         this.add(table.getScrollPane(), BorderLayout.CENTER);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        setPreferredSize(table.getScrollPane().getPreferredSize());
+        final Dimension pref = table.getScrollPane().getPreferredSize();
+        setPreferredSize(new Dimension(pref.width, pref.height));
 
+        System.out.println(table.getScrollPane().getViewport().getPreferredSize());
     }
 
     public SheetsTable getTable() {

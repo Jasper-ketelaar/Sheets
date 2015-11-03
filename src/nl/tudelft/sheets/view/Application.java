@@ -17,7 +17,7 @@ public class Application extends JFrame {
     public Application(final String name) {
         super(name);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setContentPane(new TabbedPane());
+        this.setContentPane(new TabbedPane(this));
         this.pack();
         this.addComponentListener(new ResizeListener(this));
         this.setJMenuBar(new MenuBar(this));

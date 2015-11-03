@@ -24,7 +24,8 @@ public class ResizeListener extends ComponentAdapter {
             final JScrollPane scroll = (JScrollPane) ((JPanel) comp).getComponent(0);
             final Dimension size = evt.getComponent().getSize();
             scroll.setPreferredSize(size);
-            scroll.repaint();
+            scroll.getParent().setPreferredSize(new Dimension(size.width + 50, size.height));
+
         }
     }
 }

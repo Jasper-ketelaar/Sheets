@@ -59,5 +59,10 @@ public class SheetsTable extends JTable {
         }
     }
 
+    @Override
+    public SheetsTableModel getModel() {
+        return (SheetsTableModel) super.getModel();
+    }
+
 
 }
