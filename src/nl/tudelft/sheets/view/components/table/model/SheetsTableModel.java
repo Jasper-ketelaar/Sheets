@@ -1,4 +1,4 @@
-package nl.tudelft.sheets.view.components.table;
+package nl.tudelft.sheets.view.components.table.model;
 
 
 import nl.tudelft.sheets.model.data.SheetsCell;

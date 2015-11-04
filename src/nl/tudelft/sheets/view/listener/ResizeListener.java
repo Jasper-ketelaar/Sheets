@@ -1,4 +1,4 @@
-package nl.tudelft.sheets.view.components.listener;
+package nl.tudelft.sheets.view.listener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,8 @@ public class ResizeListener extends ComponentAdapter {
     public void componentResized(final ComponentEvent evt) {
 
         for (final Component comp : panel.getComponents()) {
-            final JScrollPane scroll = (JScrollPane) ((JPanel) comp).getComponent(0);
+            if (!(comp instanceof JScrollPane)) continue;
+            final JScrollPane scroll = (JScrollPane) comp;
             final Dimension size = evt.getComponent().getSize();
             scroll.setPreferredSize(size);
             scroll.getParent().setPreferredSize(new Dimension(size.width + 50, size.height));

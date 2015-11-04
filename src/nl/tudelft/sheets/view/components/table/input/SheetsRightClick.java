@@ -1,7 +1,7 @@
-package nl.tudelft.sheets.view.components.table.menu;
+package nl.tudelft.sheets.view.components.table.input;
 
 import nl.tudelft.sheets.view.components.table.SheetsTable;
-import nl.tudelft.sheets.view.components.table.SheetsTableModel;
+import nl.tudelft.sheets.view.components.table.model.SheetsTableModel;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;

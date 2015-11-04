@@ -4,14 +4,14 @@ import nl.tudelft.sheets.model.data.SheetsCell;
 import nl.tudelft.sheets.model.xml.exc.InvalidXMLFormatException;
 import nl.tudelft.sheets.model.xml.read.SheetParser;
 import nl.tudelft.sheets.view.components.table.cell.CellRenderer;
-import nl.tudelft.sheets.view.components.table.menu.SheetsRightClick;
+import nl.tudelft.sheets.view.components.table.input.KeyInput;
+import nl.tudelft.sheets.view.components.table.input.SheetsRightClick;
+import nl.tudelft.sheets.view.components.table.model.SheetsTableModel;
 
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Vector;
 
 /**
  * Created by jasperketelaar on 10/31/15.
@@ -31,6 +31,7 @@ public class SheetsTable extends JTable {
         this.scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
         this.scrollPane.getViewport().addMouseListener(listener);
         this.setDefaultRenderer(Object.class, new CellRenderer());
+        this.getScrollPane().getViewport().addKeyListener(new KeyInput());
     }
 
 
@@ -38,20 +39,11 @@ public class SheetsTable extends JTable {
         return scrollPane;
     }
 
-    @Override
-    public Component prepareRenderer(final TableCellRenderer renderer, int row, int column) {
-        final Component comp = super.prepareRenderer(renderer, row, column);
-        if (!isRowSelected(row))
-            comp.setBackground(row % 2 == 0 ? getBackground() : Color.LIGHT_GRAY);
-
-        return comp;
-    }
-
     public void load(final String file) {
         try {
             final String[] columnNames = SheetParser.getColumnNames(file);
             final ArrayList<SheetsCell[]> cells = SheetParser.parseCellsFromFile(file);
-            ((SheetsTableModel) this.getModel()).load(columnNames, cells);
+            this.getModel().load(columnNames, cells);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidXMLFormatException e) {
