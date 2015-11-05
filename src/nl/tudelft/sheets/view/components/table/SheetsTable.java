@@ -1,17 +1,15 @@
 package nl.tudelft.sheets.view.components.table;
 
-import nl.tudelft.sheets.model.data.SheetsCell;
+import nl.tudelft.sheets.model.sheet.Sheet;
 import nl.tudelft.sheets.model.xml.exc.InvalidXMLFormatException;
-import nl.tudelft.sheets.model.xml.read.SheetParser;
 import nl.tudelft.sheets.view.components.table.cell.CellRenderer;
-import nl.tudelft.sheets.view.components.table.input.KeyInput;
 import nl.tudelft.sheets.view.components.table.input.SheetsRightClick;
+import nl.tudelft.sheets.view.components.table.input.Shortkeys;
 import nl.tudelft.sheets.view.components.table.model.SheetsTableModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by jasperketelaar on 10/31/15.
@@ -31,7 +29,8 @@ public class SheetsTable extends JTable {
         this.scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
         this.scrollPane.getViewport().addMouseListener(listener);
         this.setDefaultRenderer(Object.class, new CellRenderer());
-        this.getScrollPane().getViewport().addKeyListener(new KeyInput());
+        this.getScrollPane().getViewport().addKeyListener(new Shortkeys());
+        this.getTableHeader().setReorderingAllowed(false);
     }
 
 
@@ -41,9 +40,8 @@ public class SheetsTable extends JTable {
 
     public void load(final String file) {
         try {
-            final String[] columnNames = SheetParser.getColumnNames(file);
-            final ArrayList<SheetsCell[]> cells = SheetParser.parseCellsFromFile(file);
-            this.getModel().load(columnNames, cells);
+            final Sheet sheet = Sheet.parse(file);
+            getModel().load(sheet);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidXMLFormatException e) {

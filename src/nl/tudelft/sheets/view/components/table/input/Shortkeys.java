@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 /**
  * Created by Jasper on 11/4/2015.
  */
-public class KeyInput extends KeyAdapter {
+public class Shortkeys extends KeyAdapter {
 
     @Override
     public void keyTyped(final KeyEvent evt) {

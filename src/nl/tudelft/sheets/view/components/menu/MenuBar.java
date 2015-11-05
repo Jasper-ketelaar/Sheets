@@ -53,7 +53,7 @@ public class MenuBar extends JMenuBar {
             final JMenuItem item = new JMenuItem("New");
             item.addActionListener(e -> {
                 final SheetsTable table = new SheetsTable();
-                app.getJTabbedPane().addTab("New tab", table.getScrollPane());
+                app.getJTabbedPane().addTab("Tab", table.getScrollPane());
             });
             return item;
         }
