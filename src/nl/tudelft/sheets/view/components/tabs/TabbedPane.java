@@ -4,6 +4,7 @@ package nl.tudelft.sheets.view.components.tabs;
 import nl.tudelft.sheets.view.Application;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 

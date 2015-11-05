@@ -105,6 +105,8 @@ public class SheetsTableModel extends AbstractTableModel {
             this.sheet.getRows().add(row);
         }
         fireTableStructureChanged();
+        fireTableDataChanged();
+
 
 
     }

@@ -3,7 +3,7 @@ package nl.tudelft.sheets.model.sheet.cell;
 /**
  * Created by jasperketelaar on 10/31/15.
  */
-public class Cell<T extends Object> {
+public class Cell<T> {
 
     private T content = (T) "";
 

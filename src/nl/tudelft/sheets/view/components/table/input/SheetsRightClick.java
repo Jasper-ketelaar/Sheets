@@ -18,7 +18,7 @@ public class SheetsRightClick extends MouseAdapter {
 
     public SheetsRightClick(final SheetsTable table) {
         this.popup = new PopupMenu();
-        this.model = (SheetsTableModel) table.getModel();
+        this.model = table.getModel();
         this.table = table;
     }
 
@@ -49,11 +49,11 @@ public class SheetsRightClick extends MouseAdapter {
             item.addActionListener(e -> {
                 model.newRow();
                 table.clearSelection();
-                if(table.getSize().height + 100 > table.getScrollPane().getSize().height) {
+                /*if (table.getSize().height + 100 > table.getScrollPane().getSize().height) {
                     final JPanel contentPane = (JPanel) table.getParent().getParent().getParent();
                     contentPane.setPreferredSize(table.getScrollPane().getSize());
-                    ((JFrame)contentPane.getParent().getParent().getParent()).pack();
-                }
+                    ((JFrame) contentPane.getParent().getParent().getParent()).pack();
+                }*/
             });
             return item;
         }

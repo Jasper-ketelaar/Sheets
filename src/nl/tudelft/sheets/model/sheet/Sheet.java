@@ -33,7 +33,7 @@ public class Sheet {
         for (int i = 0; i < rows; i++) {
             final Object[] row = data[i];
             final Cell[] cellArray = new Cell[row.length];
-            for (int i2 = 0; i2 < row.length; i2++) {
+            for (int i2 = 0; i2 < cellArray.length; i2++) {
                 cellArray[i2] = new Cell();
                 cellArray[i2].setContent(row[i2]);
             }
