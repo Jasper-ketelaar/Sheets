@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by Jasper on 11/3/2015.
@@ -30,6 +31,7 @@ public class TabbedPane extends JTabbedPane {
     public void addTab(final String name, final Component component) {
         super.addTab(name, component);
         this.setSelectedComponent(component);
+
     }
 
     public class RightClick extends MouseAdapter {

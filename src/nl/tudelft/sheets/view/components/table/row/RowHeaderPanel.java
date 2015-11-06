@@ -1,6 +1,7 @@
 package nl.tudelft.sheets.view.components.table.row;
 
 import nl.tudelft.sheets.view.components.table.SheetsTable;
+import nl.tudelft.sheets.view.components.table.input.RowHeaderHighlight;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -16,8 +17,15 @@ public class RowHeaderPanel extends JPanel implements TableModelListener {
 
     public RowHeaderPanel(final SheetsTable table) {
         super(null);
-        table.getModel().addTableModelListener(this);
         this.table = table;
+        this.table.getModel().addTableModelListener(this);
+        final RowHeaderHighlight highlight = new RowHeaderHighlight(this, table);
+
+        this.table.getScrollPane().getViewport().addMouseListener(highlight);
+        this.table.getScrollPane().getViewport().addMouseMotionListener(highlight);
+        this.table.addMouseListener(highlight);
+        this.table.addMouseMotionListener(highlight);
+
         update();
 
     }

@@ -11,15 +11,33 @@ import java.util.Deque;
 import java.util.function.Predicate;
 
 /**
+ * Class that contains XMLElements assuming the main tag is the name of the xml file and the children of the main tag
+ * are the main elements.
+ *
  * Created by Jasper on 10/30/2015.
  */
 public class XMLFile {
 
+    /**
+     * An ArrayList of XMLElements
+     */
     private final ArrayList<XMLElement> elements;
+
+    /**
+     * The name of the XML file
+     */
     private final String name;
 
+    /**
+     * A buffer for filtering the elements
+     */
     private final ArrayList<XMLElement> filtered = new ArrayList<>();
 
+    /**
+     * XMLFile constructor takes the elements and the name as parameters
+     * @param elements the main elements of this xml file
+     * @param name the name of this xml file (not file name; xml name as described in class description)
+     */
     private XMLFile(final ArrayList<XMLElement> elements, final String name) {
         this.elements = elements;
         this.name = name;

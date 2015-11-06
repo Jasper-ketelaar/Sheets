@@ -2,9 +2,14 @@ package nl.tudelft.sheets.view.components.menu;
 
 import nl.tudelft.sheets.view.Application;
 import nl.tudelft.sheets.view.components.table.SheetsTable;
+import nl.tudelft.sheets.view.components.table.input.ColumnHeaderHighlight;
 
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableColumnModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 /**
@@ -53,7 +58,9 @@ public class MenuBar extends JMenuBar {
             final JMenuItem item = new JMenuItem("New");
             item.addActionListener(e -> {
                 final SheetsTable table = new SheetsTable();
+
                 app.getJTabbedPane().addTab("Tab", table.getScrollPane());
+
             });
             return item;
         }

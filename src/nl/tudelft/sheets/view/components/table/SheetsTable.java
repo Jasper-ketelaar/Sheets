@@ -3,6 +3,7 @@ package nl.tudelft.sheets.view.components.table;
 import nl.tudelft.sheets.model.sheet.Sheet;
 import nl.tudelft.sheets.model.xml.exc.InvalidXMLFormatException;
 import nl.tudelft.sheets.view.components.table.cell.CellRenderer;
+import nl.tudelft.sheets.view.components.table.input.ColumnHeaderHighlight;
 import nl.tudelft.sheets.view.components.table.input.SheetsRightClick;
 import nl.tudelft.sheets.view.components.table.model.SheetsTableModel;
 import nl.tudelft.sheets.view.components.table.row.RowHeaderPanel;
@@ -23,24 +24,31 @@ public class SheetsTable extends JTable {
 
     public SheetsTable() {
         super(new SheetsTableModel());
-        super.setGridColor(Color.LIGHT_GRAY);
+        setGridColor(Color.LIGHT_GRAY);
+        setDefaultRenderer(Object.class, new CellRenderer());
+        getTableHeader().setReorderingAllowed(false);
+        setRowSelectionAllowed(true);
+        setColumnSelectionAllowed(true);
+
+        final SheetsRightClick listener = new SheetsRightClick(this);
+        addMouseListener(listener);
+
+        final ColumnHeaderHighlight  columnHeaderHighlight = new ColumnHeaderHighlight(tableHeader, this);
 
         this.scrollPane = new JScrollPane(this);
-        this.panel = new RowHeaderPanel(this);
+        this.scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
+        this.scrollPane.getViewport().addMouseListener(listener);
 
+        this.scrollPane.getViewport().getView().addMouseListener(columnHeaderHighlight);
+        this.scrollPane.getViewport().getView().addMouseMotionListener(columnHeaderHighlight);
+        this.scrollPane.getViewport().addMouseListener(columnHeaderHighlight);
+
+        this.panel = new RowHeaderPanel(this);
         final JViewport vp = new JViewport();
         vp.setViewSize(scrollPane.getViewport().getViewSize());
         vp.setView(panel);
         this.scrollPane.setRowHeader(vp);
 
-
-        final SheetsRightClick listener = new SheetsRightClick(this);
-        this.addMouseListener(listener);
-
-        this.scrollPane.getViewport().setBackground(Color.LIGHT_GRAY);
-        this.scrollPane.getViewport().addMouseListener(listener);
-        this.setDefaultRenderer(Object.class, new CellRenderer());
-        this.getTableHeader().setReorderingAllowed(false);
     }
 
 
