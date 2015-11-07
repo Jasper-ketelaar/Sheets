@@ -3,6 +3,7 @@ package nl.tudelft.sheets.view.components.table.model;
 
 import nl.tudelft.sheets.model.sheet.Sheet;
 import nl.tudelft.sheets.model.sheet.cell.Cell;
+import nl.tudelft.sheets.view.components.table.SheetsTable;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -36,6 +37,9 @@ public class SheetsTableModel extends AbstractTableModel {
         }
     }
 
+    public Sheet getSheet() {
+        return this.sheet;
+    }
 
     /**
      * Overridden to make every cell editable
@@ -58,14 +62,13 @@ public class SheetsTableModel extends AbstractTableModel {
     }
 
     public void newRow() {
-        addRow(new Object[0]);
+        addRow(new Object[5]);
     }
 
     public void addRow(final Object[] data) {
         final int row = this.sheet.getRows().size();
         final Cell[] cells = generate();
         for (int i = 0; i < data.length; i++) {
-            System.out.println(data[i]);
             if (data[i] == null)
                 cells[i].setContent("");
             else
@@ -99,16 +102,91 @@ public class SheetsTableModel extends AbstractTableModel {
     }
 
 
+    public void paste(final Cell[][] data, final SheetsTable table) {
+        if (data.length > 0) {
+            if (table.getSelectedRowCount() > 0) {
+                final int startRow = table.getSelectedRows()[0];
+                final int startCol = table.getSelectedColumns()[0];
+                for (int i = startRow; i < startRow + data.length; i++) {
+                    for (int i2 = startCol; i2 < startCol + data[i - startRow].length; i2++) {
+                        if (i >= table.getRowCount() || i2 >= table.getColumnCount())
+                            continue;
+                        this.setValueAt(data[i - startRow][i2 - startCol].getContent(), i, i2);
+                    }
+                }
+            }
+        }
+    }
+
+    public Cell[][] getSelectedContent(final SheetsTable table, final boolean delete) {
+        final Cell[][] data = new Cell[table.getSelectedRowCount()][table.getSelectedColumnCount()];
+        if (data.length == 0) {
+            return data;
+        } else {
+            for (int i = 0; i < data.length; i++) {
+                for (int i2 = 0; i2 < data[i].length; i2++) {
+                    final Cell cell = table.getCellAt(i + table.getSelectedRows()[0], i2 + table.getSelectedColumns()[0]);
+                    data[i][i2] = new Cell();
+                    data[i][i2].setContent(cell.getContent());
+                    if (delete) {
+                        cell.setContent("");
+                    }
+                }
+            }
+            final int[] rowsSelected = table.getSelectedRows();
+            final int[] colsSelected = table.getSelectedColumns();
+
+            this.fireTableDataChanged();
+            table.setRowSelectionInterval(rowsSelected[0], rowsSelected[rowsSelected.length - 1]);
+            table.setColumnSelectionInterval(colsSelected[0], colsSelected[colsSelected.length - 1]);
+
+            return data;
+        }
+    }
+
     public void load(final Sheet sheet) {
         this.sheet.getRows().clear();
-        for (final Cell[] row : sheet.getRows()) {
-            this.sheet.getRows().add(row);
+
+
+        final int cols = columnsRequired(sheet);
+        if (cols > 5) {
+            for (int i = 0; i < cols - 5; i++) {
+                this.columnNames.add(Character.toString((char) (i + 70)));
+            }
         }
+
+        if (cols < 5) {
+            for (final Cell[] row : sheet.getRows()) {
+                final Cell[] upgr = new Cell[5];
+                for (int i = 0; i < 5; i++) {
+                    if (i < row.length) {
+                        upgr[i] = row[i];
+                    } else {
+                        upgr[i] = new Cell();
+                    }
+                }
+                this.sheet.getRows().add(upgr);
+            }
+        } else {
+            for (final Cell[] row : sheet.getRows()) {
+                this.sheet.getRows().add(row);
+            }
+        }
+
         fireTableStructureChanged();
         fireTableDataChanged();
 
 
+    }
 
+    private int columnsRequired(final Sheet sheet) {
+        int max = 0;
+        for (final Cell[] row : sheet.getRows()) {
+            if (row.length > max) {
+                max = row.length;
+            }
+        }
+        return max;
     }
 
     @Override

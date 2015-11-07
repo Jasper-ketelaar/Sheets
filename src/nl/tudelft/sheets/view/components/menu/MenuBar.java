@@ -4,13 +4,17 @@ import nl.tudelft.sheets.view.Application;
 import nl.tudelft.sheets.view.components.table.SheetsTable;
 import nl.tudelft.sheets.view.components.table.input.ColumnHeaderHighlight;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableColumnModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 /**
  * Created by jasperketelaar on 11/1/15.
@@ -21,7 +25,27 @@ public class MenuBar extends JMenuBar {
 
     public MenuBar(final Application app) {
         this.add(new FileMenu());
+        try {
+            this.add(new FormulaMenu());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.app = app;
+    }
+
+    public class FormulaMenu extends JMenu {
+
+        private final ImageIcon formula;
+
+        public FormulaMenu() throws URISyntaxException, IOException {
+            super("Formula");
+            final File file = new File(getClass().getResource("../../../resources/Formula-icon.png").toURI());
+            final Image img = ImageIO.read(file).getScaledInstance(20, 20, 0);
+
+            this.formula = new ImageIcon(img);
+            add(new JMenuItem("SUM", formula));
+            add(new JMenuItem("ADD", formula));
+        }
     }
 
     public class FileMenu extends JMenu {

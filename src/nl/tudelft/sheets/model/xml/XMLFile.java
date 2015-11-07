@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 /**
  * Class that contains XMLElements assuming the main tag is the name of the xml file and the children of the main tag
  * are the main elements.
- *
+ * <p>
  * Created by Jasper on 10/30/2015.
  */
 public class XMLFile {
@@ -35,8 +35,9 @@ public class XMLFile {
 
     /**
      * XMLFile constructor takes the elements and the name as parameters
+     *
      * @param elements the main elements of this xml file
-     * @param name the name of this xml file (not file name; xml name as described in class description)
+     * @param name     the name of this xml file (not file name; xml name as described in class description)
      */
     private XMLFile(final ArrayList<XMLElement> elements, final String name) {
         this.elements = elements;
@@ -56,6 +57,9 @@ public class XMLFile {
 
         while (!lines.isEmpty()) {
             final String first = lines.pop();
+            if (first.equals("")) {
+                continue;
+            }
             final Deque<String> content = new ArrayDeque<>();
 
             while (!lines.isEmpty()) {

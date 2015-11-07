@@ -9,12 +9,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * Represents a spreadsheet containg rows of data stored in an ArrayList where each row is represented by an array of cells
+ *
  * Created by Jasper on 11/4/2015.
  */
 public class Sheet {
 
+    /**
+     *
+     */
     private final ArrayList<Cell[]> rows = new ArrayList<>();
 
+    /**
+     * TODO: make every row same size as table column size
+     *
+     *
+     * @param file
+     * @return
+     * @throws IOException
+     * @throws InvalidXMLFormatException
+     */
     public static Sheet parse(final String file) throws IOException, InvalidXMLFormatException {
         final XMLFile xml = XMLFile.parse(file);
         final Sheet sheet = new Sheet();
@@ -63,5 +77,12 @@ public class Sheet {
         }
 
         return this.rows.get(row)[column].getContent();
+    }
+
+    /**
+     * TODO: Write saving impl.
+     * @param fileName
+     */
+    public void save(final String fileName) {
     }
 }
