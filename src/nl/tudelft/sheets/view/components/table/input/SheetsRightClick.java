@@ -20,21 +20,30 @@ public class SheetsRightClick extends MouseAdapter {
         this.popup = new PopupMenu();
         this.model = table.getModel();
         this.table = table;
+        this.popup.addMouseListener(this);
     }
 
     @Override
     public void mousePressed(final MouseEvent event) {
         if (event.getButton() == MouseEvent.BUTTON3) {
-            if(table.getSelectedRowCount() > 0) {
+            if (event.getSource().equals(table)) {
+                final int row = table.rowAtPoint(event.getPoint());
+                final int col = table.columnAtPoint(event.getPoint());
+
+                table.setColumnSelectionInterval(col, col);
+                table.setRowSelectionInterval(row, row);
+            }
+            if (table.getSelectedRowCount() > 0) {
                 popup.setEditEnabled(true);
-                ((JMenuItem)popup.getComponent(1)).setText("Remove selected row" + (table.getSelectedRowCount() > 1 ? "s" : ""));
+                ((JMenuItem) popup.getComponent(1)).setText("Remove selected row" + (table.getSelectedRowCount() > 1 ? "s" : ""));
             } else {
                 popup.setEditEnabled(false);
-                ((JMenuItem)popup.getComponent(1)).setText("Remove last row");
+                ((JMenuItem) popup.getComponent(1)).setText("Remove last row");
             }
             popup.show(event.getComponent(), event.getX(), event.getY());
 
         } else if (event.getButton() == MouseEvent.BUTTON1) {
+
             if (!table.getBounds().contains(event.getPoint())) {
                 final int row = table.getSelectedRow();
                 final int col = table.getSelectedColumn();
